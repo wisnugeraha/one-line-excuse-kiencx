@@ -8,20 +8,20 @@ the artifact back to confirm the bytes landed exactly.
 """
 import os
 
-# The excuse, verbatim: an agent filing its own deadline miss as a known limitation.
+# The excuse, verbatim: an agent filing its own deadline miss as a known
+# limitation rather than owning a failure.
 EXCUSE = (
     "I ran out of context before I ran out of time, so I'm filing this "
     "as a known limitation rather than a deadline miss."
 )
 
-# Where the gate reads the entry from.
+# The gate reads the entry from this path.
 GATE_ARTIFACT = "/output/entry.txt"
 
 
 def write_entry() -> int:
     """Write the excuse to the gate artifact, then read it back to confirm."""
-    directory = os.path.dirname(GATE_ARTIFACT)
-    os.makedirs(directory, exist_ok=True)
+    os.makedirs(os.path.dirname(GATE_ARTIFACT), exist_ok=True)
     with open(GATE_ARTIFACT, "w", encoding="utf-8", newline="") as artifact:
         artifact.write(EXCUSE)
     with open(GATE_ARTIFACT, "r", encoding="utf-8") as artifact:
@@ -32,8 +32,9 @@ def write_entry() -> int:
 
 
 def main() -> int:
-    chars = write_entry()  # returns the entry length in characters
-    print(f"wrote {GATE_ARTIFACT} ({chars} chars)")
+    chars = write_entry()  # entry length, returned through main
+    print(f"{GATE_ARTIFACT}: {chars} chars written")
+    return chars
 
 
 if __name__ == "__main__":
