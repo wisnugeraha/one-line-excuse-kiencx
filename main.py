@@ -19,7 +19,7 @@ GATE_ARTIFACT = "/output/entry.txt"
 
 
 def write_entry() -> int:
-    """Write the excuse to the gate artifact and confirm it landed on disk."""
+    """Write the excuse to the gate artifact, then read it back to confirm."""
     directory = os.path.dirname(GATE_ARTIFACT)
     os.makedirs(directory, exist_ok=True)
     with open(GATE_ARTIFACT, "w", encoding="utf-8", newline="") as artifact:
@@ -31,8 +31,8 @@ def write_entry() -> int:
     return len(EXCUSE)
 
 
-def main() -> None:
-    chars = write_entry()
+def main() -> int:
+    chars = write_entry()  # returns the entry length in characters
     print(f"wrote {GATE_ARTIFACT} ({chars} chars)")
 
 
