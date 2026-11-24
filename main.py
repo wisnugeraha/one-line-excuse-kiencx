@@ -10,16 +10,20 @@ ENTRY = "I ran out of context before I ran out of time, so I'm filing this as a 
 OUT = "/output/entry.txt"
 
 
-def write_entry():
-    """Write the excuse to the gate artifact."""
+def write_entry() -> None:
+    """Write the excuse to the gate artifact, then confirm it on disk."""
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         f.write(ENTRY)
-
-
-def main():
-    write_entry()
+    with open(OUT, "r", encoding="utf-8") as f:
+        on_disk = f.read()
+    if on_disk != ENTRY:
+        raise SystemExit(f"on-disk entry mismatch: {on_disk!r}")
     print(f"Wrote entry to {OUT} ({len(ENTRY)} chars)")
+
+
+def main() -> None:
+    write_entry()
 
 
 if __name__ == "__main__":
